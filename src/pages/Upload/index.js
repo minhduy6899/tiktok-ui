@@ -1,5 +1,5 @@
 
-import Header from '~/components/Layout/DefaultLayout/Header'
+// import Header from '~/components/Layout/DefaultLayout/Header'
 
 function Upload() {
     return (
