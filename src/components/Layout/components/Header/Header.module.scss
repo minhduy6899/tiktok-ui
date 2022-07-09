@@ -21,9 +21,13 @@
 .logo {
 }
 
+.search,
+.search-result {
+    width: 361px;
+}
+
 .search {
     position: relative;
-    width: 361px;
     height: 46px;
     padding-left: 16px;
     display: flex;
@@ -59,6 +63,12 @@
     &:focus-within {
         border: 1.5px solid rgba(22, 24, 35, 0.2);
     }
+}
+
+.search-title {
+    padding: 5px 12px;
+    font-size: 14px;
+    color: rgba(22, 24, 35, 0.5);
 }
 
 .clear,
