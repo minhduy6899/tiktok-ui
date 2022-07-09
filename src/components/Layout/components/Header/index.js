@@ -11,6 +11,7 @@ import styles from './Header.module.scss'
 import images from '~/assets/images'
 import { Wrapper as PopperWrapper } from '~/components/Popper'
 import AccountItem from '~/components/AccountItem';
+import Button from '~/components/Button';
 
 const cx = className.bind(styles)
 
@@ -67,8 +68,12 @@ function Header() {
                     </div>
                 </Tippy>
                 <div className={cx('actions')}>
-                    Đăng nhập/ Đăng kí
-                    {/* Chỗ đăng nhập */}
+                    <Button text>
+                        Upload
+                    </Button>
+                    <Button primary>
+                        Log in
+                    </Button>
                 </div>
             </div>
         </header>
