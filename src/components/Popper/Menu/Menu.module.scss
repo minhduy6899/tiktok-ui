@@ -1,7 +1,6 @@
-
 // Menu Wrapper
 .menu-list {
-    width: 240px;
+    width: 229px;
 
     .menu-item {
         margin-left: 0;
@@ -19,6 +18,10 @@
     border-radius: 0;
     padding: 11px 16px;
     line-height: 1.8rem;
+
+    &.separate {
+        border-top: 1px solid rgba(22, 24, 35, 0.12)
+    }
 
     &:hover {
         background-color: rgba(22, 24, 25, 0.03);
@@ -46,4 +49,3 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-

@@ -35,8 +35,10 @@ function Menu({ children, items = [], onChange = defaultFn }) {
     return (
         <Tippy
             interactive
-            // luôn hiện ra
-            visible
+            // // luôn hiện ra
+            // visible
+            // set postion cho menu giống top left
+            offset={[12, 8]}
             // hover vào hiện ra liền, bỏ hover 800 mls sau ẩn
             delay={[0, 800]}
             // để element nằm sát mép dưới element trước
@@ -52,6 +54,8 @@ function Menu({ children, items = [], onChange = defaultFn }) {
                     </PopperWrapper>
                 </div>
             )}
+            // Ko hover nữa thì trả về trang đầu tiên (còn trả về trang trước thì prev.length - 1)
+            onHide={() => setHistory(prev => prev.slice(0, 1))}
         >
             {children}
         </Tippy>

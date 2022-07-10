@@ -19,8 +19,7 @@
     justify-content: space-between;
 }
 
-.logo {
-}
+.logo {}
 
 .search,
 .search-result {
@@ -47,7 +46,7 @@
         background-color: transparent;
     }
 
-    input:not(:placeholder-shown) ~ .search-btn {
+    input:not(:placeholder-shown)~.search-btn {
         color: rgb(76, 78, 87);
     }
 
@@ -95,6 +94,12 @@
     }
 }
 
+// Actions
+.actions {
+    display: flex;
+    align-items: center;
+}
+
 .more-btn {
     font-size: 1.2rem;
     margin-left: 28px;
@@ -102,3 +107,20 @@
     background-color: transparent;
 }
 
+.action-btn {
+    font-size: 2.2rem;
+    color: #161823;
+    background-color: transparent;
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+// Css cho avatar
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 12px;
+    cursor: pointer;
+}
