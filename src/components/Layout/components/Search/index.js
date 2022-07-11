@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleXmark, faSpinner, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import HeadlessTippy from '@tippyjs/react/headless';
 import 'tippy.js/dist/tippy.css';
+import axios from 'axios';
 
 // import từ source code
 import { Wrapper as PopperWrapper } from '~/components/Popper';
@@ -12,6 +13,8 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './Search.module.scss';
 import { SearchIcon } from '~/components/Icons';
 import { useDebounce } from '~/hooks';
+// * là lấy tất cả, ở đây lấy get, put, post,...
+import * as request from '~/utils/request';
 
 const cx = className.bind(styles);
 
@@ -26,23 +29,30 @@ function Search() {
     const inputRef = useRef();
 
     useEffect(() => {
-        if(!debounced.trim()) {
-            setSearchResult([])
-            return
+        if (!debounced.trim()) {
+            setSearchResult([]);
+            return;
         }
 
-        setLoading(true)
+        setLoading(true);
 
-        // encodeURIComponent() là sẽ mã hóa những kí tự không hợp lệ thành hợp lệ
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
+        const fetchApi = async () => {
+            try {
+                // encodeURIComponent() là sẽ mã hóa những kí tự không hợp lệ thành hợp lệ
+                const res = await request.get('users/search', {
+                    params: {
+                        q: debounced,
+                        type: 'less',
+                    },
+                });
                 setSearchResult(res.data);
+                setLoading(false);
+            } catch (error) {
                 setLoading(false)
-            })
-            .catch((err) => {
-                setLoading(false)
-            })
+            }
+        };
+
+        fetchApi();
     }, [debounced]);
 
     const handleClear = () => {
@@ -69,7 +79,7 @@ function Search() {
                     <PopperWrapper>
                         <h4 className={cx('search-title')}>Accounts</h4>
                         {searchResult.map((result, index) => (
-                            <AccountItem key={result.id} data={result}/>
+                            <AccountItem key={result.id} data={result} />
                         ))}
                     </PopperWrapper>
                 </div>
