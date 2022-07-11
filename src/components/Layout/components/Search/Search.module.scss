@@ -57,6 +57,21 @@
     color: rgb(167, 167, 171);
 }
 
+.loading {
+    // thêm chuyển động quay tròn
+    animation: spinner 1s linear infinite;
+}
+
+// Animation chuyển động quay tròn một icon
+@keyframes spinner {
+    from {
+        transform: translateY(-50%) rotate(0);
+    }
+    to {
+        transform: translateY(-50%) rotate(360deg);
+    }
+}
+
 .search-btn {
     width: var(--search-button-width);
     height: 100%;

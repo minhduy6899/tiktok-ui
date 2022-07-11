@@ -18,28 +18,42 @@ function Search() {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
     const [showResult, setShowResult] = useState(true);
+    const [loading, setLoading] = useState(false);
 
-    const inputRef = useRef()
+    const inputRef = useRef();
 
     useEffect(() => {
-        setTimeout(() => {
-            // Để set api xong gọi ra lịch sử khi tìm kiếm
-            setSearchResult([1, 1, 1]);
-        }, 0);
-    }, []);
+        if(!searchValue.trim()) {
+            setSearchResult([])
+            return
+        }
+
+        setLoading(true)
+
+        // encodeURIComponent() là sẽ mã hóa những kí tự không hợp lệ thành hợp lệ
+        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(searchValue)}&type=less`)
+            .then((res) => res.json())
+            .then((res) => {
+                setSearchResult(res.data);
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+            })
+    }, [searchValue]);
 
     const handleClear = () => {
         // nhấp nút xóa thì xóa các chữ đã nhập
-        setSearchValue('')
-        // nhấp nút xóa thì ẩn luôn phần lịch sử 
-        setSearchResult([])
+        setSearchValue('');
+        // nhấp nút xóa thì ẩn luôn phần lịch sử
+        setSearchResult([]);
         // nhấp nút xóa thì focus lại o input
-        inputRef.current.focus()
-    }
+        inputRef.current.focus();
+    };
 
     const handleHideResult = () => {
-        setShowResult(false)
-    }
+        setShowResult(false);
+    };
     return (
         /* Tippp là khi trỏ vào sẽ hiện content ở placement */
         /* Ví dụ:<Tippy content="Tìm kiếm" placement='right'> */
@@ -51,10 +65,9 @@ function Search() {
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PopperWrapper>
                         <h4 className={cx('search-title')}>Accounts</h4>
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
+                        {searchResult.map((result, index) => (
+                            <AccountItem key={result.id} data={result}/>
+                        ))}
                     </PopperWrapper>
                 </div>
             )}
@@ -72,14 +85,13 @@ function Search() {
                     onChange={(e) => setSearchValue(e.target.value)}
                     onFocus={(e) => setShowResult(true)}
                 />
-                {!!searchValue && (
-                    /* button clear */
+                {!!searchValue && !loading && (
                     <button className={cx('clear')} onClick={handleClear}>
                         <FontAwesomeIcon icon={faCircleXmark} />
                     </button>
                 )}
                 {/* icon loading khi nhấp tìm kiếm */}
-                {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+                {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
                 {/* button tìm kiếm */}
                 <button className={cx('search-btn')}>
                     <SearchIcon />
