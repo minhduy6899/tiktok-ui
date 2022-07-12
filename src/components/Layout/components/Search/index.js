@@ -37,7 +37,7 @@ function Search() {
             setLoading(true);
 
             const results = await searchServices.search(debounced);
-
+            
             setSearchResult(results);
             setLoading(false);
         }
@@ -57,6 +57,14 @@ function Search() {
     const handleHideResult = () => {
         setShowResult(false);
     };
+
+    const handleChange = (e) => {
+        const searchValue = e.target.value;
+        if (!searchValue.startsWith(' ')) {
+            setSearchValue(e.target.value)
+        } 
+
+    }
     return (
         /* Tippp là khi trỏ vào sẽ hiện content ở placement */
         /* Ví dụ:<Tippy content="Tìm kiếm" placement='right'> */
@@ -85,7 +93,7 @@ function Search() {
                     placeholder="Search accounts and videos"
                     autocomplete="on"
                     spellCheck="false"
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={handleChange}
                     onFocus={(e) => setShowResult(true)}
                 />
                 {!!searchValue && !loading && (
@@ -96,7 +104,7 @@ function Search() {
                 {/* icon loading khi nhấp tìm kiếm */}
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
                 {/* button tìm kiếm */}
-                <button className={cx('search-btn')}>
+                <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
                     <SearchIcon />
                 </button>
             </div>
