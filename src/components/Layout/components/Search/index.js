@@ -13,8 +13,7 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './Search.module.scss';
 import { SearchIcon } from '~/components/Icons';
 import { useDebounce } from '~/hooks';
-// * là lấy tất cả, ở đây lấy get, put, post,...
-import * as request from '~/utils/request';
+import * as searchServices from '~/apiServices/searchServices';
 
 const cx = className.bind(styles);
 
@@ -33,26 +32,17 @@ function Search() {
             setSearchResult([]);
             return;
         }
-
-        setLoading(true);
-
+        
         const fetchApi = async () => {
-            try {
-                // encodeURIComponent() là sẽ mã hóa những kí tự không hợp lệ thành hợp lệ
-                const res = await request.get('users/search', {
-                    params: {
-                        q: debounced,
-                        type: 'less',
-                    },
-                });
-                setSearchResult(res.data);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false)
-            }
-        };
+            setLoading(true);
 
+            const results = await searchServices.search(debounced);
+
+            setSearchResult(results);
+            setLoading(false);
+        }
         fetchApi();
+
     }, [debounced]);
 
     const handleClear = () => {
